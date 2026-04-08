@@ -88,7 +88,7 @@ Connect to the running Docker container:
 ```shell
 docker exec -it -u admin isaac_ros_dev-aarch64-container /bin/bash
 ```
-Test that the `visual_vslam` is publishing its topics:
+Test that the `visual_slam` node is publishing its topics. It is interesting all of its published topics:
 ```shell
 ros2 topic list
 ```
