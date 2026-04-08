@@ -74,7 +74,7 @@ profile: '640x360x30'
 The profile with `'640x360x90'` with 90 FPS is not valid.    
 
 ## Launch VSLAM
-Now that your installation is complete, let's launch VSLAM. We are assuming that you already installed `ros_humble-isaac-ros-example` and `ros-humble-isaac-ros-realsense` for the previous Assinments. If the get the message saying that the "realsense camera was not found", unplug and then replug the camera cable. There is software fix for this issue, but let's not worry about it for the time being.  
+Now that your installation is complete, let's launch VSLAM. We are assuming that you already installed `ros_humble-isaac-ros-example` and `ros-humble-isaac-ros-realsense` for the previous Assinments. If you get a message saying that the "realsense camera was not found", unplug and then replug the camera cable (There is software fix for this issue, but let's not worry about it for the time being).    
 ```shell
 cd /workspaces/isaac_ros_dev
 ```
@@ -89,7 +89,9 @@ Connect the running Docker container:
 docker exec -it -u admin isaac_ros_dev-aarch64-container /bin/bash
 ```
 Then run RViz to visualize the vslam output:
+```shell
 rviz2 -d $(ros2 pkg prefix isaac_ros_visual_slam --share)/rviz/default.cfg.rviz
+```
 
 
 
