@@ -92,8 +92,60 @@ Test that the `visual_vslam` is publishing its topics:
 ```shell
 ros2 topic list
 ```
-You should see 
-Then run RViz to visualize the vslam output:
+and you should see the topics:
+```
+/diagnostics
+/extrinsics/depth_to_infra1
+/extrinsics/depth_to_infra2
+/imu
+/infra1/image_rect_raw/compressed
+/infra1/image_rect_raw/compressedDepth
+/infra1/image_rect_raw/theora
+/infra1/image_rect_raw_mono
+/infra1/image_rect_raw_mono/nitros
+/infra1/metadata
+/infra2/image_rect_raw/compressed
+/infra2/image_rect_raw/compressedDepth
+/infra2/image_rect_raw/theora
+/infra2/image_rect_raw_mono
+/infra2/image_rect_raw_mono/nitros
+/infra2/metadata
+/left/camera_info_rect
+/left/image_rect
+/left/image_rect/nitros
+/left/image_rect_mono
+/left/image_rect_mono/nitros
+/parameter_events
+/right/camera_info_rect
+/right/image_rect
+/right/image_rect/nitros
+/right/image_rect_mono
+/right/image_rect_mono/nitros
+/rosout
+/tf
+/tf_static
+/visual_slam/initial_pose
+/visual_slam/status
+/visual_slam/tracking/odometry
+/visual_slam/tracking/slam_path
+/visual_slam/tracking/vo_path
+/visual_slam/tracking/vo_pose
+/visual_slam/tracking/vo_pose_covariance
+/visual_slam/trigger_hint
+/visual_slam/vis/gravity
+/visual_slam/vis/landmarks_cloud
+/visual_slam/vis/localizer
+/visual_slam/vis/localizer_loop_closure_cloud
+/visual_slam/vis/localizer_map_cloud
+/visual_slam/vis/localizer_observations_cloud
+/visual_slam/vis/loop_closure_cloud
+/visual_slam/vis/observations_cloud
+/visual_slam/vis/pose_graph_edges
+/visual_slam/vis/pose_graph_edges2
+/visual_slam/vis/pose_graph_nodes
+/visual_slam/vis/slam_odometry
+```
+If all is good, then run RViz to visualize the vslam output:
 ```shell
 rviz2 -d $(ros2 pkg prefix isaac_ros_visual_slam --share)/rviz/default.cfg.rviz
 ```
