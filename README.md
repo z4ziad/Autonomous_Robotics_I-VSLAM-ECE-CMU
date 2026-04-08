@@ -5,7 +5,7 @@ Tracking on Assignment 8 in Autonomous Robotics I.
 
 ## Assumptions
 You completed Assingmnet 8 with Object Tracking with YOLOv8 in Docker on Jetson Orin Nano and the RealSense 435i camera. 
-## Install Required Assets
+## Install the Required Assets
 1. Start the `isaac_ros_dev-aarch64-container`    
 ```shell
 docker start -a -i isaac_ros_dev-aarch64-container```
@@ -48,7 +48,7 @@ versions/$LATEST_VERSION_ID/files/$NGC_FILENAME" && \
     rm ${NGC_FILENAME}
 fi
 ```
-## Installing Isaac ROS VSLAM
+## Install Isaac ROS VSLAM
 In this step we install VSLAM from binaries since we don't intend to modify the souce code.   
 Inside the container:   
 ```shell
@@ -59,11 +59,11 @@ then...
 sudo apt-get install -y ros-humble-isaac-ros-visual-slam
 ```
 ## Modify the RealSense Infrared Camera Frame Rate
-We need to modify the default frame rate configuration for the RealSense camera so that it runs at least 30Hz or 33 ms per frame. The `visual_vslam_node` expects the delta time between frames to be less than or equal to 34 ms.
+We need to modify the default frame rate configuration for the RealSense camera so that it runs with at least at 30 Hz or 33 ms per frame. The `visual_vslam_node` expects the delta time between frames to be less than or equal to 34 ms.
 ```shell
 cd /opt/ros/humble/share/isaac_ros_realsense/config
 ```
-We need to edit the `realsense_stereo.yaml` file, but let's copied first just in case:
+We need to edit the `realsense_stereo.yaml` file, but let's copy it first just in case:
 ```shell
 sudo cp realsense_stereo.yaml realsense_stereo.yaml_orig
 ```
@@ -71,10 +71,13 @@ Now with `sudo` priviledges, edit the `realsense_stereo.yaml` file to change the
 ```yaml
 profile: '640x360x30'
 ```
-The profile with `'640x360x90'` with 90 Hz FPS is not valid` 
+The profile with `'640x360x90'` with 90 FPS is not valid.    
 
-## Launching 
+## Launch VSLAM
 Now that your installation is complete, let's launch VSLAM. We are assuming that you already installed `ros_humble-isaac-ros-example` and `ros-humble-isaac-ros-realsense` for the previous Assinments. If the get the message saying that the "realsense camera was not found", unplug and then replug the camera cable. There is software fix for this issue, but let's not worry about it for the time being.  
+```shell
+cd /workspaces/isaac_ros_dev
+```
 ```shell
 ros2 launch isaac_ros_examples isaac_ros_examples.launch.py launch_fragments:=realsense_stereo_rect,visual_slam \
 interface_specs_file:=${ISAAC_ROS_WS}/isaac_ros_assets/isaac_ros_visual_slam/quickstart_interface_specs.json \
