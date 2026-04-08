@@ -54,8 +54,9 @@ Inside the container:
 ```shell
 sudo apt-get update
 ```
+then...
 ```shell
-sudo apt-get install -y ros-humble-isaac-ros-examples
+sudo apt-get install -y ros-humble-isaac-ros-visual-slam
 ```
 
 
