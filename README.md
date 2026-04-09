@@ -149,7 +149,7 @@ If all is good, then run RViz to visualize the vslam output:
 ```shell
 rviz2 -d $(ros2 pkg prefix isaac_ros_visual_slam --share)/rviz/default.cfg.rviz
 ```
-
+When RViz comes up, you should see a screen containing the map point cloud and the robot and camera pose and orientation indicated with a red arrow. Zoom in on the map with the mouse cursor, and move the robot with the camera manually left and right and watch the map being built in real-time. Make sure the press and drag to examine the map in 3D! 
 
 
 
