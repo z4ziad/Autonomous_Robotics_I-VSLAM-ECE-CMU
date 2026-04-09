@@ -150,7 +150,8 @@ If all is good, then run RViz to visualize the vslam output:
 rviz2 -d $(ros2 pkg prefix isaac_ros_visual_slam --share)/rviz/default.cfg.rviz
 ```
 When RViz comes up, you should see a screen like the one below containing the map point cloud and the robot and camera pose and orientation indicated with a red arrow, as shown below.
-![](https://media.githubusercontent.com/media/NVIDIA-ISAAC-ROS/.github/release-3.2/resources/isaac_ros_docs/repositories_and_packages/isaac_ros_visual_slam/Rviz_quick_start.png/)  
+![](https://media.githubusercontent.com/media/NVIDIA-ISAAC-ROS/.github/release-3.2/resources/isaac_ros_docs/repositories_and_packages/isaac_ros_visual_slam/Rviz_quick_start.png/)    
+
 Zoom in on the map with the mouse cursor, and move the robot with the camera manually left and right and watch the map being built in real-time. Make sure the press and drag to examine the map in 3D.
 ![](https://github.com/z4ziad/Auto_Robo_1_VSLAM/blob/main/vslam1.gif).  
 
