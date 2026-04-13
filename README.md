@@ -161,7 +161,7 @@ You can download and apply the foxglove JSON layout file from this repo to make 
 In one of the camera panels: pick one of the two infrared stereo vision, e.g. `/camera/infra1/image_rect_raw`.
 
 In the 3D panel, turn on `/visual_slam/vis/landmarks_cloud` so you can see the created map. Move the robot manually with your hands to verify that the visualization is working. You can also turn on the `/visual_slam/tracking/slam_path` and 
-`/visual_slam/tracking/vo_path`. Here is an example screenshot of my foxglove visualization ![](https://github.com/z4ziad/Auto_Robo_1_VSLAM/blob/main/Screenshot_chrome_1.png).    
+`/visual_slam/tracking/vo_path`. Here is an example screenshot of my foxglove visualization. ![](https://github.com/z4ziad/Auto_Robo_1_VSLAM/blob/main/Screenshot_chrome_1.png)    
 
 Next part, moving the robot with a gamepad controller to create a map!
 
