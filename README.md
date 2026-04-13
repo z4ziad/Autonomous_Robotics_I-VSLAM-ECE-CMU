@@ -148,7 +148,7 @@ It is critical in robotics not to visualize the output on the same compute platf
 
 **Note 2:** If you are using a browser to visualize your data, you must use Chrome browser to be compatible with Foxglove background scripts and must give it permission to load scripts. 
 
-At first, we want to test the Foxglove while the robot being **tethered to power and display and being static**. I will have separate document for testing visualization with the robot being **untethered and mobile.**  
+At first, we want to test Foxglove while the robot being **tethered to power and display and being static**. I will have separate document for testing visualization with the robot being **untethered and mobile.**  
      
 To get started, connect to the running `isaac_ros_dev-aarch64-container` container:    
 ```bash
