@@ -65,7 +65,7 @@ Run the following commands to find out the valid modes for your RealSense camera
 ```bash
 rs-enumerate-devices -c
 ```
-The above command puts out a lot of output. Scroll up and look for the "Supported modes:" section. One the valid modes should be `Infrared 1   640x480       Y8          @ 30/15/6 Hz` so let's go with that. First backup the original VSLAM launch file:
+The above command puts out a lot of output. Scroll up and look for the "Supported modes:" section. One the valid modes should be `Infrared 1 640x480 Y8 @ 30/15/6 Hz` so let's go with that. First backup the original VSLAM launch file:
 ```bash
 cd /opt/ros/humble/share/isaac_ros_visual_slam/launch
 cp isaac_ros_visual_slam_realsense.launch.py isaac_ros_visual_slam_realsense.launch_orig.py
@@ -142,8 +142,10 @@ and you should see the topics:
 /visual_slam/vis/velocity
 ```
 If all is good, then let's visualize the VSLAM output.
-## Visual VSLAM Output with Foxglove
-
+## Visualize VSLAM Output with Foxglove
+It is critical in robotics not to visualize the output on the same compute platform as the robot as it might take too much compute resources from the robot itself. [Foxglove](https://foxglove.dev/) is a service that lets us easily visualize the output for VSLAM.   
+     
+To get started,      
 
 
 
