@@ -5,7 +5,7 @@ Tracking on Assignment 8 in Autonomous Robotics I.
 
 ## Assumptions
 You completed Assignment 8 with Object Tracking with YOLOv8 in Docker on Jetson Orin Nano and the RealSense 435i camera. 
-## Install the Required Assets
+## Install the Required VSLAM Assets
 1. Start the `isaac_ros_dev-aarch64-container`    
 ```shell
 docker start -a -i isaac_ros_dev-aarch64-container```
@@ -14,8 +14,8 @@ docker start -a -i isaac_ros_dev-aarch64-container```
 ```shell
 sudo apt-get install -y curl jq tar
 ```
-3. Then download the assets from NGC:
-```shell
+3. Then download the assets from NGC by running these commands:
+```bash
 NGC_ORG="nvidia"
 NGC_TEAM="isaac"
 PACKAGE_NAME="isaac_ros_visual_slam"
@@ -49,89 +49,85 @@ versions/$LATEST_VERSION_ID/files/$NGC_FILENAME" && \
 fi
 ```
 ## Install Isaac ROS VSLAM
-In this step we install VSLAM from binaries since we don't intend to modify the souce code.   
-Inside the container:   
+In this step we install VSLAM from binaries since we don't intend to modify the source code.   
+**Inside the Docker container:**   
 ```shell
-sudo apt-get update
+sudo apt-get update 
 ```
 then...
 ```shell
 sudo apt-get install -y ros-humble-isaac-ros-visual-slam
 ```
 ## Modify the RealSense Infrared Camera Frame Rate
-We need to modify the default frame rate configuration for the RealSense camera so that it runs with at least at 30 Hz or 33 ms per frame. The `visual_vslam_node` expects the delta time between frames to be less than or equal to 34 ms.
-```shell
-cd /opt/ros/humble/share/isaac_ros_realsense/config
+Since this VLSAM package relies on the stereo vision of the infrared cameras on the RealSense 435i, we need to modify the default infrared frame rate configuration so we get a "good" balance between the frame rate and resolution. Running at 30Hz should be good enough for mapping while the robot is moving and detecting good features to track (GFTT). A profile of 640x480x30 is workable profile.    
+We need also to tell `visual_vslam_node` expect 30Hz frame rate, i.e., at least 33ms, otherwise, it would think some frames are dropped.    
+Run the following commands to find out the valid modes for your RealSense camera. The modes depend on the firmware version, which should be at least 5.13
+```bash
+rs-enumerate-devices -c
 ```
-We need to edit the `realsense_stereo.yaml` file, but let's copy it first just in case:
-```shell
-sudo cp realsense_stereo.yaml realsense_stereo.yaml_orig
+The above command puts out a lot of output. Scroll up and look for the "Supported modes:" section. One the valid modes should be `Infrared 1   640x480       Y8          @ 30/15/6 Hz` so let's go with that. First backup the original VSLAM launch file:
+```bash
+cd /opt/ros/humble/share/isaac_ros_visual_slam/launch
+cp isaac_ros_visual_slam_realsense.launch.py isaac_ros_visual_slam_realsense.launch_orig.py
 ```
-Now with `sudo` priviledges, edit the `realsense_stereo.yaml` file to change the profile as follows:
-```yaml
-profile: '640x360x30'
-```
-The profile with `'640x360x90'` with 90 FPS is not valid.    
-
-## Launch VSLAM
-Now that your installation is complete, let's launch VSLAM. We are assuming that you already installed `ros_humble-isaac-ros-example` and `ros-humble-isaac-ros-realsense` for the previous Assignments. If you get a message saying that the "realsense camera was not found", unplug and then re-plug the camera cable (There is software fix for this issue, but let's not worry about it for the time being).    
+Now sudo edit the file `isaac_ros_visual_slam_realsense.launch.py` to change the following parameters:
+```python
+'depth_module.profile': '640x480x30'    
+'image_jitter_threshold_ms': 44.00
+```   
+## Launch VSLAM  
+Make sure to plug the RealSense camera. Then launch VSLAM
 ```shell
 cd /workspaces/isaac_ros_dev
+ros2 launch isaac_ros_visual_slam isaac_ros_visual_slam_realsense.launch.py
 ```
-```shell
-ros2 launch isaac_ros_examples isaac_ros_examples.launch.py launch_fragments:=realsense_stereo_rect,visual_slam \
-interface_specs_file:=${ISAAC_ROS_WS}/isaac_ros_assets/isaac_ros_visual_slam/quickstart_interface_specs.json \
-base_frame:=camera_link camera_optical_frames:="['camera_infra1_optical_frame', 'camera_infra2_optical_frame']"
-```
-## Visualize the Output
+If you get a message saying the RealSense device not found, please unplug and re-plug the camera so the Docker container can see it.   
+
+Check that the VSLAM topics are being published by the `visual_slam` node.
 Connect to the running Docker container:
 ```shell
 docker exec -it -u admin isaac_ros_dev-aarch64-container /bin/bash
 ```
-Test that the `visual_slam` node is publishing its topics. It is interesting all of its published topics:
+Inside the Docker container:
 ```shell
 ros2 topic list
 ```
 and you should see the topics:
 ```
-/diagnostics
-/extrinsics/depth_to_infra1
-/extrinsics/depth_to_infra2
-/imu
-/infra1/image_rect_raw/compressed
-/infra1/image_rect_raw/compressedDepth
-/infra1/image_rect_raw/theora
-/infra1/image_rect_raw_mono
-/infra1/image_rect_raw_mono/nitros
-/infra1/metadata
-/infra2/image_rect_raw/compressed
-/infra2/image_rect_raw/compressedDepth
-/infra2/image_rect_raw/theora
-/infra2/image_rect_raw_mono
-/infra2/image_rect_raw_mono/nitros
-/infra2/metadata
-/left/camera_info_rect
-/left/image_rect
-/left/image_rect/nitros
-/left/image_rect_mono
-/left/image_rect_mono/nitros
+/camera/accel/imu_info
+/camera/accel/metadata
+/camera/accel/sample
+/camera/extrinsics/depth_to_accel
+/camera/extrinsics/depth_to_gyro
+/camera/extrinsics/depth_to_infra1
+/camera/extrinsics/depth_to_infra2
+/camera/gyro/imu_info
+/camera/gyro/metadata
+/camera/gyro/sample
+/camera/imu
+/camera/infra1/camera_info
+/camera/infra1/image_rect_raw
+/camera/infra1/image_rect_raw/compressed
+/camera/infra1/image_rect_raw/compressedDepth
+/camera/infra1/image_rect_raw/theora
+/camera/infra1/metadata
+/camera/infra2/camera_info
+/camera/infra2/image_rect_raw
+/camera/infra2/image_rect_raw/compressed
+/camera/infra2/image_rect_raw/compressedDepth
+/camera/infra2/image_rect_raw/theora
+/camera/infra2/metadata
 /parameter_events
-/right/camera_info_rect
-/right/image_rect
-/right/image_rect/nitros
-/right/image_rect_mono
-/right/image_rect_mono/nitros
 /rosout
 /tf
 /tf_static
-/visual_slam/initial_pose
+/visual_slam/imu
 /visual_slam/status
 /visual_slam/tracking/odometry
 /visual_slam/tracking/slam_path
 /visual_slam/tracking/vo_path
 /visual_slam/tracking/vo_pose
 /visual_slam/tracking/vo_pose_covariance
-/visual_slam/trigger_hint
 /visual_slam/vis/gravity
 /visual_slam/vis/landmarks_cloud
 /visual_slam/vis/localizer
@@ -143,17 +139,11 @@ and you should see the topics:
 /visual_slam/vis/pose_graph_edges
 /visual_slam/vis/pose_graph_edges2
 /visual_slam/vis/pose_graph_nodes
-/visual_slam/vis/slam_odometry
+/visual_slam/vis/velocity
 ```
-If all is good, then run RViz to visualize the vslam output:
-```shell
-rviz2 -d $(ros2 pkg prefix isaac_ros_visual_slam --share)/rviz/default.cfg.rviz
-```
-When RViz comes up, you should see a screen like the one below containing the map point cloud and the robot and camera pose and orientation indicated with a red arrow, as shown below.
-![](https://media.githubusercontent.com/media/NVIDIA-ISAAC-ROS/.github/release-3.2/resources/isaac_ros_docs/repositories_and_packages/isaac_ros_visual_slam/Rviz_quick_start.png/)    
+If all is good, then let's visualize the VSLAM output.
+## Visual VSLAM Output with Foxglove
 
-Zoom in on the map with the mouse cursor, and move the robot with the camera manually left and right and watch the map being built in real-time. Make sure the press and drag to examine the map in 3D.
-![](https://github.com/z4ziad/Auto_Robo_1_VSLAM/blob/main/vslam1.gif).  
 
 
 
