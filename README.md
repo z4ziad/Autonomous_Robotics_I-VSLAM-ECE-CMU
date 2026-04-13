@@ -63,7 +63,7 @@ Run the following commands to find out the valid modes for your RealSense camera
 ```bash
 rs-enumerate-devices -c
 ```
-The above command puts out a lot of output. Scroll up and look for the "Supported modes:" section. One the valid modes should be `Infrared 1 640x480 Y8 @ 30/15/6 Hz` o let's go with that. First backup the original VSLAM launch file:
+The above command puts out a lot of output. Scroll up and look for the "Supported modes:" section. One of the valid modes should be `Infrared 1 640x480 Y8 @ 30/15/6 Hz`. So let's go with that. First backup the original VSLAM launch file:
 ```bash
 cd /opt/ros/humble/share/isaac_ros_visual_slam/launch
 cp isaac_ros_visual_slam_realsense.launch.py isaac_ros_visual_slam_realsense.launch_orig.py
