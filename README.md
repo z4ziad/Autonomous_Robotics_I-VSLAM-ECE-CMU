@@ -138,7 +138,7 @@ and you should see the topics:
 /visual_slam/vis/pose_graph_edges
 /visual_slam/vis/pose_graph_edges2
 /visual_slam/vis/pose_graph_nodes
-/visual_slam/vis/velocity
+/visual_slam/vis/velocity 
 ```
 If all is good, then let's visualize the VSLAM output.
 ## Visualize VSLAM Output with Foxglove
