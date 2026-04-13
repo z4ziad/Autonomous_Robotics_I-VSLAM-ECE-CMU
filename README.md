@@ -1,6 +1,6 @@
 # Setting up VSLAM for Autonomous Robotics I, ECE, CMU
 This repo explains how to set up Isaac ROS VSLAM in Docker 
-after installing and running Isaac ROS Object Detection and Object Tracking on Assignment 8 in Autonomous Robotics I. This is Part 1 of the VSLAM. In part 2, we move the robots with a gamepad controller to create a map of the robot and test its localization ability. 
+after installing and running Isaac ROS Object Detection and Object Tracking on Assignment 8 in Autonomous Robotics I. This is Part 1 of the VSLAM. In part 2, we move the robots with a gamepad controller to create a map of the robot's environment and test its localization ability. 
 
 ## Assumptions
 You completed Assignment 8 with Object Tracking with YOLOv8 in Docker on Jetson Orin Nano and the RealSense 435i camera. 
