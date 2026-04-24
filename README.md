@@ -171,7 +171,7 @@ In the 3D panel, turn on `/visual_slam/vis/landmarks_cloud` so you can see the c
     
 Try to pan in and out in 3D map with mouse scroll. Hold down the Shift key and click-and-drag to examine the 3D map structure.   
 
-Next part, moving the robot with a gamepad controller to create a map!
+Next part, [moving the robot with a gamepad controller to create a map!](Creating_a_map.md)
 
 
 
