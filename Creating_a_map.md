@@ -89,7 +89,7 @@ def generate_launch_description():
 ```Python
 'enable_localization_n_mapping': True
 ```
-  * Add the parameters arguments `localize_on_startup` and `load_map_folder_path` to the list of parameters for the visual_slam_node:
+  * Add the parameters arguments `localize_on_startup` and `load_map_folder_path` to the list of parameters for the `visual_slam_node`:
   ```Python
             'localize_on_startup': ParameterValue(
                 LaunchConfiguration('localize_on_startup'),
