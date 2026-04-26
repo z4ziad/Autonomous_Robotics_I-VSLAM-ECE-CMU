@@ -171,7 +171,20 @@ In the 3D panel, turn on `/visual_slam/vis/landmarks_cloud` so you can see the c
     
 Try to pan in and out in 3D map with mouse scroll. Hold down the Shift key and click-and-drag to examine the 3D map structure.   
 
-Next part, [moving the robot with a gamepad controller to create a map and localize in it!](Creating_a_map.md)
+## Frames in the Map
+In the map, you should see an odom frame, maps frame, and a camera frame. So what are these frames?
+* **The map frame** should stay at the origin of the map where the mapping started when start VSLAM.
+* **The camera frame** should be move where the robot is moving, assuming it is mounted statically to the robot chassis.
+* **The odom frame** shows the position of the robot before VSLAM corrected the robot position with loop closures.    
+
+So why the odom frame might be in a strange place on the map?   
+* The odom frame should normally also start at the robot's initial position. In a typical setup, both map and odom origins coincide at startup, and they diverge over time as odometry drifts while SLAM corrects for that drift. The map → odom transform essentially represents the accumulated odometry error that SLAM is correcting.
+* If your odom frame is somewhere the robot has never visited, it likely means SLAM has made a significant correction. Here's the key insight: when VSLAM detects a loop closure or relocalizes, it updates the map → odom transform to keep the map → base_link pose globally consistent. This can make the odom frame appear to "jump" to a location in space that looks arbitrary — because it essentially is. The odom frame's position in the map is just wherever it needs to be so that map → odom → base_link gives the correct global pose.
+* The intuition to hold onto: the odom frame's position in 3D space isn't meaningful on its own — what matters is that the chain map → odom → base_link produces the correct robot pose. SLAM is free to place the odom frame wherever it needs to be to make that math work, especially after loop closures or corrections.
+
+
+## Next part 
+[moving the robot with a gamepad controller to create a map and localize in it!](Creating_a_map.md)
 
 
 
